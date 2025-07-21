@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.20)
 project(imgui-cmake VERSION 0.0.1)
 
 add_library(imgui-static-wrapper STATIC
-    include/ImguiWrapper.h
+    "include/ImguiWrapper.h"
 
     "thirdparty/imgui/imconfig.h"
     "thirdparty/imgui/imgui.h"
