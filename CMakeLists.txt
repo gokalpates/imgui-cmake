@@ -49,6 +49,8 @@ target_link_libraries(imgui-static-wrapper PUBLIC volk)
 
 if(IMGUI_BACKEND_SDL3)
     target_link_libraries(imgui-static-wrapper PUBLIC SDL3::SDL3)
+    message("Using SDL3 platform backend for imgui.")
 elseif(IMGUI_BACKEND_GLFW)
     target_link_libraries(imgui-static-wrapper PUBLIC glfw)
+    message("Using GLFW platform backend for imgui.")
 endif()
