@@ -7,6 +7,7 @@ add_library(imgui-static-wrapper STATIC
 
     "thirdparty/imgui/imconfig.h"
     "thirdparty/imgui/imgui.h"
+    "thirdparty/imgui/backends/imgui_impl_sdl3.h"
     "thirdparty/imgui/backends/imgui_impl_glfw.h"
     "thirdparty/imgui/backends/imgui_impl_vulkan.h"
     "thirdparty/imgui/imgui_internal.h"
@@ -17,6 +18,7 @@ add_library(imgui-static-wrapper STATIC
     "thirdparty/imgui/imgui.cpp"
     "thirdparty/imgui/imgui_demo.cpp"
     "thirdparty/imgui/imgui_draw.cpp"
+    "thirdparty/imgui/backends/imgui_impl_sdl3.cpp"
     "thirdparty/imgui/backends/imgui_impl_glfw.cpp"
     "thirdparty/imgui/backends/imgui_impl_vulkan.cpp"
     "thirdparty/imgui/imgui_tables.cpp"
