@@ -2,13 +2,25 @@ cmake_minimum_required(VERSION 3.20)
 
 project(imgui-cmake VERSION 0.0.1)
 
+if (TARGET SDL3::SDL3)
+    set(IMGUI_BACKEND_SDL3 TRUE)
+    set(IMGUI_BACKEND_SOURCES 
+    "thirdparty/imgui/backends/imgui_impl_sdl3.h"
+    "thirdparty/imgui/backends/imgui_impl_sdl3.cpp")
+elseif(TARGET glfw)
+    set(IMGUI_BACKEND_GLFW TRUE)
+    set(IMGUI_BACKEND_SOURCES 
+    "thirdparty/imgui/backends/imgui_impl_glfw.h"
+    "thirdparty/imgui/backends/imgui_impl_glfw.cpp")
+else()
+    message(FATAL_ERROR "No platform backend found for imgui.")
+endif()
+
 add_library(imgui-static-wrapper STATIC
     "include/ImguiWrapper.h"
 
     "thirdparty/imgui/imconfig.h"
     "thirdparty/imgui/imgui.h"
-    "thirdparty/imgui/backends/imgui_impl_sdl3.h"
-    "thirdparty/imgui/backends/imgui_impl_glfw.h"
     "thirdparty/imgui/backends/imgui_impl_vulkan.h"
     "thirdparty/imgui/imgui_internal.h"
     "thirdparty/imgui/imstb_rectpack.h"
@@ -18,11 +30,11 @@ add_library(imgui-static-wrapper STATIC
     "thirdparty/imgui/imgui.cpp"
     "thirdparty/imgui/imgui_demo.cpp"
     "thirdparty/imgui/imgui_draw.cpp"
-    "thirdparty/imgui/backends/imgui_impl_sdl3.cpp"
-    "thirdparty/imgui/backends/imgui_impl_glfw.cpp"
     "thirdparty/imgui/backends/imgui_impl_vulkan.cpp"
     "thirdparty/imgui/imgui_tables.cpp"
     "thirdparty/imgui/imgui_widgets.cpp"
+
+    ${IMGUI_BACKEND_SOURCES}
 )
 
 target_compile_definitions(imgui-static-wrapper PUBLIC IMGUI_IMPL_VULKAN_USE_VOLK)
@@ -33,4 +45,10 @@ target_include_directories(imgui-static-wrapper PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui/backends
 )
 
-target_link_libraries(imgui-static-wrapper PUBLIC volk glfw)
+target_link_libraries(imgui-static-wrapper PUBLIC volk)
+
+if(IMGUI_BACKEND_SDL3)
+    target_link_libraries(imgui-static-wrapper PUBLIC SDL3::SDL3)
+elseif(IMGUI_BACKEND_GLFW)
+    target_link_libraries(imgui-static-wrapper PUBLIC glfw)
+endif()
